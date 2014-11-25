@@ -9,7 +9,14 @@ class ArticleRevision extends BaseModel {
   // Don't forget to fill this array
   protected $guarded = [
       'id',
-      'article_id'
+      'article_id',
   ];
-
+  
+  protected $hidden = [
+      'created_at',
+      'updated_at',
+      'id',
+      'status',
+  ];
+  
 }

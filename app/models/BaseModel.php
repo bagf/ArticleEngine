@@ -30,6 +30,10 @@ abstract class BaseModel extends \Eloquent {
     $camelArray = array();
     foreach ($this->toArray() AS $key => $value) {
       $snakeCaseKey = camel_case($key);
+      // Make adjustment for Id
+      if (substr($snakeCaseKey, -2, 2) === 'Id') {
+        $snakeCaseKey = substr($snakeCaseKey, 0, -2) ."ID";  
+      }
       $camelArray[$snakeCaseKey] = $value;
     }
     return $camelArray;

@@ -13,8 +13,60 @@ Please note that the following version requirements have been determined during 
 
 # Testing
 
-Article Engine uses [Laravel Homestead](http://laravel.com/docs/4.2/homestead) to provision our Vagrant development environment.
-(Steps to get started coming soon)
+The following steps detail the process involved when deploying this application to staging or production environments.
+
+### Cloning
+
+Use Git to clone this repository and change directory by running these commands:
+
+```
+git clone https://github.com/bagf/ArticleEngine.git articleengine
+cd articleengine/
+```
+
+### Installing
+
+Once cloned install the projects dependencies using [Composer](https://getcomposer.org/), run this command:
+
+```
+composer install
+```
+
+Once composer has installed everything you should be able to configure Apache’s or Nginx’s document root to the `public/` folder. Article Engine can be deployed using [Laravel Homestead](http://laravel.com/docs/4.2/homestead) to provision Vagrant as both the development and testing environment. Make sure Homestead is installed and configured then run the following to add articleengine.app as a Homestead Site.
+
+On Linux or OS X:
+```
+sudo sh -c "echo 192.168.10.10 articleengine.app >> /etc/hosts"
+homestead up
+homestead ssh
+```
+
+On Windows:
+```
+echo 192.168.10.10 articleengine.app >> %windir%\System32\drivers\etc\hosts
+homestead.bat up
+homestead.bat ssh
+```
+
+Once you receive as vagrant@homestead prompt add the articleengine.app site with the serve command and run the Artisan migrate command to automatically generate the database structure
+
+```
+serve domain.app /home/vagrant/Code/articleengine/public
+cd ~/Code/articleengine
+php artisan migrate
+exit
+```
+
+
+Alternatively you can also setup the Site by adding articleengine.app to the sites section in the `~/.homestead/Homestead.yml` configuration file. Example sites section:
+
+```
+sites:
+    - map: articleengine.app
+      to: /home/vagrant/Code/articleengine/public
+```
+
+Once the Homestead site is added you should be able to access http://articleengine.app and being testing.
 
 # Issues/limitations
 

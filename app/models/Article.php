@@ -11,24 +11,19 @@ class Article extends BaseModel {
       'id',
   ];
   
-  public function revisions()
-  {
-    return $this->hasMany('ArticleRevision', 'article_id');
-  }
-  
   /**
    * Returns the current article revision
    */
-  public function headRevision()
+  public function revision()
   {
-    return $this->revisions()->where('status', '=', 'HEAD')->first();
+    return $this->hasOne('ArticleRevision', 'article_id')->whereStatus('HEAD');
   }
   
   /**
    * Returns all article revisions except the head/current one
    */
-  public function previousRevisions()
+  public function prevRevisions()
   {
-    return $this->revisions()->where('status', '=', 'REVISED');
+    return $this->hasMany('ArticleRevision', 'article_id')->whereStatus('REVISED');
   }
 }

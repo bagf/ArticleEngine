@@ -84,7 +84,7 @@ In this API: articles are represented as serialized JSON objects, these object w
 This call will create a new article in the system and return a unique article ID which can be used in other requests.
 
 **Request:**
-`POST http://articleengine.app/article/new`
+`POST http://articleengine.app/article`
 ```
 [
     {
@@ -103,7 +103,14 @@ This call will create a new article in the system and return a unique article ID
 ```
 [
     {
-        "articleID": 1
+        "revisionID": 1,
+        "articleID": (unique article ID),
+        "articleBody": "The actual body of the article.",
+        "articleSection": "Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.",
+        "pageEnd": "138",
+        "pageStart": "135",
+        "pagination": "135-138",
+        "wordCount": 23
     }
 ]
 ```
@@ -113,7 +120,7 @@ This call will create a new article in the system and return a unique article ID
 Use this call with caution as it will permanently delete the specified article including any reversions made to it.
 
 **Request:**
-`DELETE http://articleengine.app/article/(article ID)/delete`
+`DELETE http://articleengine.app/article/(article ID)`
 
  **Response:**
  `HTTP 200`
@@ -133,14 +140,15 @@ This call will apply the selected revision ID to the specified article ID in som
 This call will output all the available article objects including the article ID in chronological order.
 
 **Request**
-`GET http://articleengine.app/article/list`
+`GET http://articleengine.app/article`
 
 **Response**
 `HTTP 200`
 ```
 [
     {
-        "articleID": 1,
+        "revisionID": (revision ID),
+        "articleID": (article ID),
         "articleBody": "The actual body of the article.",
         "articleSection": "Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.",
         "pageEnd": "138",
@@ -154,14 +162,14 @@ This call will output all the available article objects including the article ID
 
 ##### Listing a range of articles
 
-You can request a specified range of articles if you wish to optimize the size of responses. The last two slugs in the request URL determine the list range for example: `GET http://articleengine.app/article/list/10/25` will list 25 articles starting from the 10th latest entry. Optionally you may omit the last slug for example: `GET http://articleengine.app/article/list/25` will list 25 articles starting at the latest entry.
+You can request a specified range of articles if you wish to optimize the size of responses. The last two slugs in this request URL determine the list range for example: `GET http://articleengine.app/article/limit/10/25` will list 25 articles starting from the 10th latest entry. Optionally you may omit the last slug for example: `GET http://articleengine.app/article/limit/25` will list 25 articles starting at the latest entry.
 
 ## Editing existing articles
 
 Use this call to modify an existing article, by doing so a revision will be made as to record the articles previous values. Note that if no value has been changed no revision will be made.
 
 **Request:**
-`PUT/PATCH http://articleengine.app/article/(article ID)/edit`
+`PUT/PATCH http://articleengine.app/article/(article ID)`
 ```
 [
     {
@@ -180,8 +188,14 @@ Use this call to modify an existing article, by doing so a revision will be made
 ```
 [
     {
-        "articleID": 1,
-        "revisionID": 2,
+        "revisionID": (revision ID),
+        "articleID": (article ID),
+        "articleBody": "The actual body of the article.",
+        "articleSection": "Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.",
+        "pageEnd": "138",
+        "pageStart": "135",
+        "pagination": "135-138",
+        "wordCount": 23
     }
 ]
 ```
@@ -191,14 +205,15 @@ Use this call to modify an existing article, by doing so a revision will be made
 This call will retrieve an article object matching the specified article ID, HTTP error 404 will be returned if the article ID is not found.
 
 **Request**
-`GET http://articleengine.app/article/(article ID)/view`
+`GET http://articleengine.app/article/(article ID)`
 
 **Response**
 `HTTP 200`
 ```
 [
     {
-        "articleID": (articleID),
+        "revisionID": (revision ID),
+        "articleID": (article ID),
         "articleBody": "The actual body of the article.",
         "articleSection": "Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.",
         "pageEnd": "138",
@@ -221,8 +236,8 @@ This call will retrieve and output every article revision made since the article
 ```
 [
     {
-        "articleID": (article ID),
         "revisionID": (revision ID),
+        "articleID": (article ID),
         "articleBody": "The actual body of the article.",
         "articleSection": "Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.",
         "pageEnd": "138",

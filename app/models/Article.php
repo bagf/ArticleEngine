@@ -26,4 +26,12 @@ class Article extends BaseModel {
   {
     return $this->hasMany('ArticleRevision', 'article_id')->whereStatus('REVISED');
   }
+  
+  /**
+   * Returns all article revisions
+   */
+  public function allRevisions()
+  {
+    return $this->hasMany('ArticleRevision', 'article_id');
+  }
 }

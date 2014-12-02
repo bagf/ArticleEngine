@@ -77,7 +77,7 @@ There are few issues I’d like to mention before the software gets released, if
 
 # Documentation
 
-In this API: articles are represented as serialized JSON objects, these object will contain properties as specified on the [schema.org](http://schema.org/Article) page. If a request fails HTTP error 500 will be returned with error content if applicable. (Note that the error content might not be in JSON format)
+In this API: articles are represented as serialized JSON objects, these object will contain properties as specified on the [schema.org](http://schema.org/Article) page. If a request fails HTTP error 400 will be returned with error content if applicable. (Note that the error content might not be in JSON format)
 
 ## Creating new articles
 
@@ -127,7 +127,7 @@ Use this call with caution as it will permanently delete the specified article i
  
 ## Applying article revisions
 
-This call will apply the selected revision ID to the specified article ID in some cases effectively rolling back any changes made to an article. Note that the revision ID has to be a valid revision for the specified article ID, otherwise this call will return HTTP error 500.
+This call will apply the selected revision ID to the specified article ID in some cases effectively rolling back any changes made to an article. Note that the revision ID has to be a valid revision for the specified article ID, otherwise this call will return HTTP error 400.
 
 **Request**
 `PUT/PATCH http://articleengine.app/article/(article ID)/apply_revision/(revision ID)`

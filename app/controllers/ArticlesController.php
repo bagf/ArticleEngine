@@ -93,9 +93,13 @@ class ArticlesController extends BaseController {
     if ($validator->fails()) {
       return Response::json(array($validator->messages()), 400);
     } else {
-      $article = $this->api->editArticle($attributes);
-      $revision = $article->revision;
-      return Response::json(array($revision->toCamelArray()), 200);
+      try {
+        $article = $this->api->editArticle($attributes);
+        $revision = $article->revision;
+        return Response::json(array($revision->toCamelArray()), 200);
+      } catch (ModelNotFoundException $ex) {
+        App::abort(404);
+      }
     }
   }
 
@@ -126,7 +130,7 @@ class ArticlesController extends BaseController {
       $this->api->applyArticleRevision($id, $revisionID);
       return Response::json(array(), 200);
     } catch (ModelNotFoundException $ex) {
-      App::abort(404);
+      App::abort(400);
     }
   }
   

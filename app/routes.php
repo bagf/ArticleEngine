@@ -16,12 +16,12 @@ Route::get('/', function() {
   return View::make('hello');
 });
 
+// Custom Resource Calls
 Route::get('article/limit/{start}/{limit?}', 'ArticlesController@index')
         ->where(array('start' => '[0-9]+', 'limit' => '[0-9]+'));
 Route::get('article/{article}/view_revisions', 'ArticlesController@viewRevisions')
         ->where(array('article' => '[0-9]+'));
 Route::match(array('PUT', 'PATCH'), 'article/{article}/apply_revision/{revision}', 'ArticlesController@applyRevision');
-//Route::post('article/{article}', 'ArticlesController@update')
-//        ->where(array('article' => '[0-9]+'));
+
 Route::resource('article', 'ArticlesController',
         array('except' => array('create', 'edit')));
